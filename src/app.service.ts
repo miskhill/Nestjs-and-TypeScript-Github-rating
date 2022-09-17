@@ -9,26 +9,27 @@ export class AppService {
     repo: string,
   ): Promise<GithubInfoResponse | undefined> {
     const octokit = new Octokit();
+    let repoDetails;
     try {
-      const repoDetails = await octokit.rest.repos.get({
+      repoDetails = await octokit.rest.repos.get({
         owner,
         repo,
       });
-      const stars = repoDetails.data.stargazers_count;
-      const starsValue = stars > 1000 ? 2 : stars / 500;
-      const watchers = repoDetails.data.watchers_count;
-      const watchersValue = watchers > 100 ? 1 : watchers / 100;
-      const forks = repoDetails.data.forks_count;
-      const forksValue = forks > 100 ? 2 : forks / 50;
-      return {
-        name: repoDetails.data.name,
-        stars,
-        forks,
-        watchers,
-        popularity: Math.floor(starsValue + watchersValue + forksValue),
-      };
     } catch (e) {
-      return undefined;
+        return undefined;
     }
+    const stars = repoDetails.data.stargazers_count;
+    const starsValue = stars > 1000 ? 2 : stars / 500;
+    const watchers = repoDetails.data.watchers_count;
+    const watchersValue = watchers > 100 ? 1 : watchers / 100;
+    const forks = repoDetails.data.forks_count;
+    const forksValue = forks > 100 ? 2 : forks / 50;
+    return {
+      name: repoDetails.data.name,
+      stars,
+      forks,
+      watchers,
+      popularity: Math.floor(starsValue + watchersValue + forksValue),
+    };
   }
 }

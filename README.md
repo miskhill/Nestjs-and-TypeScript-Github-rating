@@ -1,2 +1,2 @@
-# Public Repo
- uploaded friday project
+# NestJs and TypeScript project
+
